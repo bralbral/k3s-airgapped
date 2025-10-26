@@ -1,30 +1,49 @@
 1. Copy folder `airgap` to vm
 2. 
 
-Execute
+Execute (single)
 
 ```
 cd /root/airgap/k3s
-sudo cp k3s /usr/local/bin/
-sudo chmod +x /usr/local/bin/k3s
-sudo mkdir -p /var/lib/rancher/k3s/agent/images/
-sudo cp k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
+cp k3s /usr/local/bin/
+chmod +x /usr/local/bin/k3s
+mkdir -p /var/lib/rancher/k3s/agent/images/
+cp k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
 
-sudo INSTALL_K3S_SKIP_DOWNLOAD=true ./install.sh --write-kubeconfig-mode 644
+INSTALL_K3S_SKIP_DOWNLOAD=true ./install.sh --write-kubeconfig-mode 644
+
 
 ```
+
+Execute (cluster)
+
+```
+
+cd /root/airgap/k3s
+cp k3s /usr/local/bin/
+chmod +x /usr/local/bin/k3s
+mkdir -p /var/lib/rancher/k3s/agent/images/
+cp k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
+
+# Инициализация первого сервера с встроенным etcd
+INSTALL_K3S_SKIP_DOWNLOAD=true ./install.sh server --cluster-init --write-kubeconfig-mode 644
+
+
+```
+
+
 
 3. Check status
 
 ```
-sudo systemctl status k3s
-sudo kubectl get nodes
+systemctl status k3s
+kubectl get nodes
 ```
 
 4. Obtain node-token
 
 ```
-sudo cat /var/lib/rancher/k3s/server/node-token
+cat /var/lib/rancher/k3s/server/node-token
 
 ```
 
@@ -34,12 +53,12 @@ sudo cat /var/lib/rancher/k3s/server/node-token
 ```
 
 cd /root/airgap/k3s
-sudo cp k3s /usr/local/bin/
-sudo chmod +x /usr/local/bin/k3s
-sudo mkdir -p /var/lib/rancher/k3s/agent/images/
-sudo cp k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
+cp k3s /usr/local/bin/
+chmod +x /usr/local/bin/k3s
+mkdir -p /var/lib/rancher/k3s/agent/images/
+cp k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
 
-sudo K3S_URL="https://<MASTER_IP>:6443" \
+K3S_URL="https://<MASTER_IP>:6443" \
      K3S_TOKEN="<NODE_TOKEN>" \
      INSTALL_K3S_SKIP_DOWNLOAD=true ./install.sh
 
@@ -49,12 +68,12 @@ sudo K3S_URL="https://<MASTER_IP>:6443" \
 
 ```
 cd /root/airgap/k3s
-sudo cp k3s /usr/local/bin/
-sudo chmod +x /usr/local/bin/k3s
-sudo mkdir -p /var/lib/rancher/k3s/agent/images/
-sudo cp k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
+cp k3s /usr/local/bin/
+chmod +x /usr/local/bin/k3s
+mkdir -p /var/lib/rancher/k3s/agent/images/
+cp k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
 
-sudo K3S_URL="https://<MASTER_IP>:6443" \
+K3S_URL="https://<MASTER_IP>:6443" \
      K3S_TOKEN="<MASTER_TOKEN>" \
      INSTALL_K3S_SKIP_DOWNLOAD=true ./install.sh server
 ```
@@ -62,7 +81,7 @@ sudo K3S_URL="https://<MASTER_IP>:6443" \
 7. Obtain .kubeconfig for `kubectl`, `freelens`, `etc`.
 
 ```
-sudo cat /etc/rancher/k3s/k3s.yaml
+cat /etc/rancher/k3s/k3s.yaml
 
 ```
 Dont forget replace `127.0.0.1` with your external IP.
@@ -74,8 +93,8 @@ Dont forget replace `127.0.0.1` with your external IP.
 ```
 
 mkdir -p ~/.kube
-sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
-sudo chown $(id -u):$(id -g) ~/.kube/config
+cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+chown $(id -u):$(id -g) ~/.kube/config
 
 ```
 
