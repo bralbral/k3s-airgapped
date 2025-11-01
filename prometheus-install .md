@@ -4,9 +4,8 @@
 
 sudo kubectl create namespace monitoring
 
-./airgap/helm/helm install prometheus ./airgap/charts/prometheus \
-  -n monitoring \
-  -f ./airgap/values/prometheus-values-longhorn-single-node.yaml
+buntu@ubuntu-MS-7C52:~/Projects/k3s-airgapped$ helm install prometheus ./airgap/charts/prometheus -n monitoring -f ./airgap/values/prometheus-values.yaml
+
 
 
 ```
@@ -15,10 +14,9 @@ sudo kubectl create namespace monitoring
 Output:
 
 ```
-
-W1026 11:21:54.903199  146791 warnings.go:70] spec.SessionAffinity is ignored for headless services
+W1101 17:04:00.879035   23918 warnings.go:70] spec.SessionAffinity is ignored for headless services
 NAME: prometheus
-LAST DEPLOYED: Sun Oct 26 11:21:54 2025
+LAST DEPLOYED: Sat Nov  1 17:04:00 2025
 NAMESPACE: monitoring
 STATUS: deployed
 REVISION: 1
