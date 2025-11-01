@@ -69,39 +69,6 @@ helm pull longhorn/longhorn --version ${LONGHORN_CHART_VERSION} --untar --untard
 
 cd ../..
 
-# === 5. StorageClass для single-node Longhorn ===
-echo "[5/6] Creating StorageClass for single-node Longhorn..."
-cat > airgap/storageclass/longhorn-single.yaml <<EOF
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: longhorn-single
-provisioner: driver.longhorn.io
-parameters:
-  numberOfReplicas: "1"
-reclaimPolicy: Delete
-allowVolumeExpansion: true
-volumeBindingMode: Immediate
-EOF
-
-# === 6. Values.yaml для чарта Grafana и Prometheus (single-node) ===
-echo "[6/6] Creating single-node values.yaml for Grafana and Prometheus..."
-cat > airgap/values/grafana-values-longhorn-single-node.yaml <<EOF
-persistence:
-  enabled: true
-  storageClassName: longhorn-single
-EOF
-
-cat > airgap/values/prometheus-values-longhorn-single-node.yaml <<EOF
-server:
-  persistentVolume:
-    enabled: true
-    storageClass: longhorn-single
-alertmanager:
-  persistentVolume:
-    enabled: true
-    storageClass: longhorn-single
-EOF
 
 echo "[✓] All done. Airgap bundle ready in ./airgap/"
 find airgap -type f | sort
