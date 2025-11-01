@@ -4,7 +4,7 @@ set -euo pipefail
 
 # uncomment
 # NAMESPACE="monitoring"
-# NAMESPACE="longhorn-system"
+NAMESPACE="longhorn-system"
 OUTPUT_DIR="./airgap/images/$NAMESPACE"
 
 mkdir -p "$OUTPUT_DIR"

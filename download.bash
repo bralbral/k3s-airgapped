@@ -69,7 +69,6 @@ helm pull longhorn/longhorn --version ${LONGHORN_CHART_VERSION} --untar --untard
 
 cd ../..
 
-
 echo "[✓] All done. Airgap bundle ready in ./airgap/"
 find airgap -type f | sort
 echo "=== Completed at $(date) ==="
